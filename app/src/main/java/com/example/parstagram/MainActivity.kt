@@ -42,6 +42,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         queryPosts()
+
+        // TODO: Move this function to ProfileActivity
+        findViewById<Button>(R.id.btnLogOut).setOnClickListener {
+            ParseUser.logOut()
+            val currentUser = ParseUser.getCurrentUser()
+            if (currentUser == null) {
+                Log.i(TAG, "Log out successful")
+                Toast.makeText(this, "Successfully logged out!", Toast.LENGTH_SHORT).show()
+                val i = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            } else {
+                Log.e(TAG, "Log out unsuccessful")
+                Toast.makeText(this, "Something went wrong when logging out!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun submitPost(description: String, user: ParseUser, file: File) {
