@@ -9,10 +9,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.core.content.FileProvider
 import com.parse.*
 import java.io.ByteArrayOutputStream
@@ -64,6 +62,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun submitPost(description: String, user: ParseUser, file: File) {
+        val pb = findViewById<ProgressBar>(R.id.pbLoading)
+        pb.visibility = ProgressBar.VISIBLE
         val post = Post()
         post.setDescription(description)
         post.setUser(user)
@@ -78,7 +78,9 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Post created!", Toast.LENGTH_SHORT).show()
                 findViewById<EditText>(R.id.description).text.clear()
                 findViewById<ImageView>(R.id.imageView).setImageResource(android.R.color.transparent)
+                findViewById<ImageView>(R.id.btnTakePicture).visibility = View.VISIBLE
             }
+            pb.visibility = ProgressBar.INVISIBLE
         }
     }
 
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                 fos.close()
 
                 // Load the taken image into a preview
+                findViewById<ImageView>(R.id.btnTakePicture).visibility = View.INVISIBLE
                 ivPreview.setImageBitmap(BitmapFactory.decodeFile(resizedFile!!.absolutePath))
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show()
