@@ -28,6 +28,7 @@ The following **additional** features are implemented:
 
 - [X] Styled the create post activity to look like the real Instagram feed
 - [X] Photo is square cropped, like in Instagram
+- [X] Password is hidden
 
 ## Video Walkthrough
 
