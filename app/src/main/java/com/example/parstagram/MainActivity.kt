@@ -1,6 +1,7 @@
 package com.example.parstagram
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.parse.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnTakePicture).setOnClickListener {
+        findViewById<ImageView>(R.id.btnTakePicture).setOnClickListener {
             onLaunchCamera()
         }
 
@@ -83,12 +86,27 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                val ivPreview: ImageView = findViewById(R.id.imageView)
+
                 // by this point we have the camera photo on disk
                 val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
-                // RESIZE BITMAP, see section below
+                // RESIZE BITMAP
+                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+                val resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, ivPreview.measuredWidth)
+                // Configure byte output stream
+                val bytes = ByteArrayOutputStream()
+                // Compress the image further
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes)
+                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                val resizedFile = getPhotoFileUri(photoFileName + "_resized")
+                resizedFile.createNewFile()
+                val fos = FileOutputStream(resizedFile)
+                // Write the bytes of the bitmap to file
+                fos.write(bytes.toByteArray())
+                fos.close()
+
                 // Load the taken image into a preview
-                val ivPreview: ImageView = findViewById(R.id.imageView)
-                ivPreview.setImageBitmap(takenImage)
+                ivPreview.setImageBitmap(BitmapFactory.decodeFile(resizedFile!!.absolutePath))
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show()
             }
