@@ -72,21 +72,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
-    <!-- TODO: Remove this and use Profile Activity when you have tabs -->
-    <Button
-        android:id="@+id/btnLogOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/sideMargin"
-        android:layout_marginStart="@dimen/sideMargin"
-        android:layout_marginEnd="@dimen/sideMargin"
-        android:backgroundTint="@color/button_gray"
-        android:textColor="@color/black"
-        android:textSize="@dimen/stdTextSize"
-        android:text="LOG OUT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
