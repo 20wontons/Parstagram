@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.example.parstagram.LoginActivity
 import com.example.parstagram.Post
@@ -17,6 +18,8 @@ import com.parse.ParseException
 import com.parse.ParseQuery
 import com.parse.ParseUser
 
+
+// TODO : Profile Picture, About Me
 class ProfileFragment : FeedFragment() {
 
     override fun onCreateView(
@@ -29,6 +32,8 @@ class ProfileFragment : FeedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<TextView>(R.id.tvUsername).text = ParseUser.getCurrentUser().username
 
         view.findViewById<Button>(R.id.btnLogOut).setOnClickListener {
             ParseUser.logOut()
