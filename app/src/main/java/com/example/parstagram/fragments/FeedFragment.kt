@@ -149,6 +149,8 @@ open class FeedFragment : Fragment() {
     fun fetchQueryAsync(page: Int) {
         // Send the network request to fetch the updated data
         queryPosts()
+        adapter.clear()
+        adapter.addAll(allPosts)
         swipeContainer.setRefreshing(false)
     }
 
