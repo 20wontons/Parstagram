@@ -53,6 +53,7 @@ open class FeedFragment : Fragment() {
         // Find all Post objects
         query.include(Post.KEY_USER)
         query.addDescendingOrder("createdAt")
+        query.setLimit(4)
         query.findInBackground(object : FindCallback<Post> {
             override fun done(posts: MutableList<Post>?, e: ParseException?) {
                 if (e != null) {
