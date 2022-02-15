@@ -8,18 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parstagram.MainActivity
-import com.example.parstagram.Post
-import com.example.parstagram.PostAdapter
-import com.example.parstagram.R
+import com.example.parstagram.*
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
+import com.example.parstagram.EndlessRecyclerViewScrollListener
+
+
+
 
 open class FeedFragment : Fragment() {
 
     lateinit var rvPosts: RecyclerView
     lateinit var adapter: PostAdapter
+
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     var allPosts: MutableList<Post> = mutableListOf()
 
@@ -41,11 +44,31 @@ open class FeedFragment : Fragment() {
 
         rvPosts.layoutManager = LinearLayoutManager(requireContext())
 
+        scrollListener = object : EndlessRecyclerViewScrollListener(rvPosts.layoutManager as LinearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page)
+            }
+        }
+        // Adds the scroll listener to RecyclerView
+        rvPosts.addOnScrollListener(scrollListener)
+
         queryPosts()
     }
 
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    open fun loadNextDataFromApi(offset: Int) {
+        // Send an API request to retrieve appropriate paginated data
+        //  --> Send the request including an offset value (i.e `page`) as a query parameter.
+        //  --> Deserialize and construct new model objects from the API response
+        //  --> Append the new data objects to the existing set of items inside the array of items
+        //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
+        getNextPageOfPosts(offset)
+    }
+
     // Query for all posts in our server
-    // TODO: only return the most recent 20 posts
     open fun queryPosts() {
 
         // Specify which class to query
@@ -53,7 +76,7 @@ open class FeedFragment : Fragment() {
         // Find all Post objects
         query.include(Post.KEY_USER)
         query.addDescendingOrder("createdAt")
-        query.setLimit(4)
+        query.setLimit(postLimit)
         query.findInBackground(object : FindCallback<Post> {
             override fun done(posts: MutableList<Post>?, e: ParseException?) {
                 if (e != null) {
@@ -75,7 +98,37 @@ open class FeedFragment : Fragment() {
         })
     }
 
+    open fun getNextPageOfPosts(offset: Int) {
+        // Specify which class to query
+        val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
+        // Find all Post objects
+        query.include(Post.KEY_USER)
+        query.addDescendingOrder("createdAt")
+        query.setLimit(postLimit)
+        query.setSkip(postLimit*offset)
+        query.findInBackground(object : FindCallback<Post> {
+            override fun done(posts: MutableList<Post>?, e: ParseException?) {
+                if (e != null) {
+                    Log.e(TAG, "Error fetching posts")
+                } else {
+                    if (posts != null) {
+                        for (post in posts) {
+                            Log.i(
+                                TAG, "Post: " + post.getDescription()
+                                        + " , username: " + post.getUser())
+                        }
+
+                        allPosts.addAll(posts)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
+        })
+    }
+
     companion object {
         const val TAG = "FeedFragment"
+        private const val postLimit = 20
     }
 }
