@@ -56,7 +56,7 @@ class ComposeFragment : Fragment() {
             if (photoFile != null) {
                 submitPost(description, user, photoFile!!)
             } else {
-                Log.e(MainActivity.TAG, "photoFile is null")
+                Log.e(TAG, "photoFile is null")
                 Toast.makeText(requireContext(), "You can't make a post without a photo!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -70,13 +70,13 @@ class ComposeFragment : Fragment() {
 //            ParseUser.logOut()
 //            val currentUser = ParseUser.getCurrentUser()
 //            if (currentUser == null) {
-//                Log.i(MainActivity.TAG, "Log out successful")
+//                Log.i(TAG, "Log out successful")
 //                Toast.makeText(this, "Successfully logged out!", Toast.LENGTH_SHORT).show()
 //                val i = Intent(this@MainActivity, LoginActivity::class.java)
 //                startActivity(i)
 //                finish()
 //            } else {
-//                Log.e(MainActivity.TAG, "Log out unsuccessful")
+//                Log.e(TAG, "Log out unsuccessful")
 //                Toast.makeText(this, "Something went wrong when logging out!", Toast.LENGTH_SHORT).show()
 //            }
 //        }
@@ -91,11 +91,11 @@ class ComposeFragment : Fragment() {
         post.setImage(ParseFile(file))
         post.saveInBackground { exception ->
             if (exception != null) {
-                Log.e(MainActivity.TAG, "Error while saving post")
+                Log.e(TAG, "Error while saving post")
                 exception.printStackTrace()
                 Toast.makeText(requireContext(), "Error: Something went wrong trying to save your post!", Toast.LENGTH_SHORT).show()
             } else {
-                Log.i(MainActivity.TAG, "Successfully saved post")
+                Log.i(TAG, "Successfully saved post")
                 Toast.makeText(requireContext(), "Post created!", Toast.LENGTH_SHORT).show()
                 etDescription.text.clear()
                 ivPreview.setImageResource(android.R.color.transparent)
@@ -170,11 +170,15 @@ class ComposeFragment : Fragment() {
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d(MainActivity.TAG, "failed to create directory")
+            Log.d(TAG, "failed to create directory")
         }
 
         // Return the file target for the photo based on filename
         return File(mediaStorageDir.path + File.separator + fileName)
+    }
+
+    companion object {
+        const val TAG = "ComposeFragment"
     }
 
 }

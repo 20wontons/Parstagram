@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.parstagram.fragments.ComposeFragment
+import com.example.parstagram.fragments.FeedFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.*
 import java.io.ByteArrayOutputStream
@@ -23,19 +24,24 @@ import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var bottomNav: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val fragmentManager: FragmentManager = supportFragmentManager
 
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnItemSelectedListener {
+        bottomNav = findViewById(R.id.bottom_navigation)
+
+        bottomNav.setOnItemSelectedListener {
             item ->
 
             var fragmentToShow: Fragment? = null
             when (item.itemId) {
 
                 R.id.action_home -> {
+                    fragmentToShow = FeedFragment()
                 }
                 R.id.action_compose -> {
                     fragmentToShow = ComposeFragment()
@@ -50,32 +56,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        queryPosts()
+        bottomNav.selectedItemId = R.id.action_home
 
-    }
-
-    // Query for all posts in our server
-    fun queryPosts() {
-
-        // Specify which class to query
-        val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
-        // Find all Post objects
-        query.include(Post.KEY_USER)
-        query.findInBackground(object : FindCallback<Post> {
-            override fun done(posts: MutableList<Post>?, e: ParseException?) {
-                if (e != null) {
-                    Log.e(TAG, "Error fetching posts")
-                } else {
-                    if (posts != null) {
-                        for (post in posts) {
-                            Log.i(TAG, "Post: " + post.getDescription()
-                                    + " , username: " + post.getUser())
-                        }
-                    }
-                }
-            }
-
-        })
     }
 
     companion object {
