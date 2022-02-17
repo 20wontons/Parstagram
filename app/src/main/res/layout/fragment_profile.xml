@@ -19,6 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/ivProfilePic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/betweenMargin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+        tools:src="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnLogOut"
@@ -28,13 +37,12 @@
         android:layout_marginStart="@dimen/sideMargin"
         android:layout_marginEnd="@dimen/sideMargin"
         android:backgroundTint="@color/button_gray"
+        android:text="LOG OUT"
         android:textColor="@color/black"
         android:textSize="@dimen/stdTextSize"
-        android:text="LOG OUT"
-        app:layout_constraintTop_toBottomOf="@id/tvUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

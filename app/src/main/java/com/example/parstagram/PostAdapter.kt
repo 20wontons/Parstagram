@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.parstagram.fragments.ProfileFragment
 
 class PostAdapter(val context: Context, val posts: MutableList<Post>)
     : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
@@ -28,12 +30,14 @@ class PostAdapter(val context: Context, val posts: MutableList<Post>)
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvUsername: TextView
+        val ivProfilePic: ImageView
         val ivImage: ImageView
         val tvDescription: TextView
         val tvTimestamp: TextView
 
         init {
             tvUsername = itemView.findViewById(R.id.tvUsername)
+            ivProfilePic = itemView.findViewById(R.id.ivProfilePic)
             ivImage = itemView.findViewById(R.id.ivImage)
             tvDescription = itemView.findViewById(R.id.tvDescription)
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp)
@@ -43,6 +47,18 @@ class PostAdapter(val context: Context, val posts: MutableList<Post>)
             tvDescription.text = post.getDescription()
             tvUsername.text = post.getUser()?.username
             tvTimestamp.text = TimeFormatter.getTimeDifference(post.createdAt.toString())
+
+            if (post.getUser()?.getParseFile(ProfileFragment.KEY_PFP) != null) {
+                Glide.with(itemView.context)
+                    .load(post.getUser()?.getParseFile(ProfileFragment.KEY_PFP)?.url)
+                    .transform(CircleCrop())
+                    .into(ivProfilePic)
+            } else {
+                Glide.with(itemView.context)
+                    .load(R.drawable.instagram_user_filled_24)
+                    .transform(CircleCrop())
+                    .into(ivProfilePic)
+            }
 
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
         }
