@@ -43,12 +43,15 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_home -> {
                     fragmentToShow = FeedFragment()
+//                    item.icon = getDrawable(R.drawable.instagram_home_filled_24)
                 }
                 R.id.action_compose -> {
                     fragmentToShow = ComposeFragment()
+//                    item.icon = getDrawable(R.drawable.instagram_new_post_filled_24)
                 }
                 R.id.action_profile -> {
                     fragmentToShow = ProfileFragment()
+//                    item.icon = getDrawable(R.drawable.instagram_user_filled_24)
                 }
             }
 

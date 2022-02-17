@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/drawable/navigation_home_selector.xml" value="0.2703125" />
+        <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/drawable/navigation_new_post_selector.xml" value="0.2703125" />
+        <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/drawable/navigation_profile_selector.xml" value="0.2703125" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/layout/activity_profile.xml" value="0.2" />
@@ -12,6 +15,7 @@
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/layout/fragment_profile.xml" value="0.37202380952380953" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/layout/item_posts.xml" value="0.536" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/menu/bottom_app_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/skylz/AndroidStudioProjects/Parstagram/app/src/main/res/xml/fileprovider.xml" value="0.12092391304347826" />
       </map>
     </option>

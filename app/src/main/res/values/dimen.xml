@@ -4,4 +4,6 @@
     <dimen name="betweenMargin">10dp</dimen>
     <dimen name="stdTextSize">18sp</dimen>
 
+    <dimen name="iconSize">35dp</dimen>
+
 </resources>
